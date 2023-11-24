@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+</head>
+<body>
+    <h1>User Profile</h1>
+
+    <div id="userProfile">
+        <!-- Display user's email and points -->
+    </div>
+
+    <div id="redeemSection">
+        <h2>Redeem Points</h2>
+        <input type="number" id="redeemInput" placeholder="Enter a number (1-10)" min="1" max="10" required>
+        <button onclick="redeem()">Redeem</button>
+    </div>
+
+    <div id="thankYouMessage" style="display: none;">
+        <p>Thank you for redeeming a code!</p>
+        <button onclick="showRedeemButton()">Redeem Another Code</button>
+    </div>
+
+    <script>
+        // Retrieve user's email and points from localStorage
+        const userEmail = localStorage.getItem('userEmail');
+        let userPoints = localStorage.getItem('userPoints') || 0;
+
+        // Display user's email and points
+        document.getElementById('userProfile').innerHTML = `
+            <p>Email: ${userEmail}</p>
+            <p>Points: ${userPoints}</p>
+        `;
+
+        function redeem() {
+            const redeemInput = document.getElementById('redeemInput').value;
+
+            if (!isNaN(redeemInput) && redeemInput >= 1 && redeemInput <= 10) {
+                // Increment user's points
+                userPoints++;
+                localStorage.setItem('userPoints', userPoints);
+
+                // Update displayed points
+                document.getElementById('userProfile').innerHTML = `
+                    <p>Email: ${userEmail}</p>
+                    <p>Points: ${userPoints}</p>
+                `;
+
+                // Hide redeem section
+                document.getElementById('redeemSection').style.display = 'none';
+
+                // Show thank you message
+                document.getElementById('thankYouMessage').style.display = 'block';
+            } else {
+                alert('Please enter a valid number between 1 and 10 to redeem.');
+            }
+        }
+
+        // Function to show redeem section again after redeeming
+        function showRedeemButton() {
+            document.getElementById('redeemSection').style.display = 'block';
+            document.getElementById('thankYouMessage').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
