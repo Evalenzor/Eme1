@@ -13,8 +13,9 @@
 
     <div id="redeemSection">
         <h2>Redeem Points</h2>
+        <input type="email" id="emailInput" placeholder="Enter your email" required>
         <input type="number" id="redeemInput" placeholder="Enter a number (1-10)" min="1" max="10" required>
-        <button onclick="redeem()">Redeem</button>
+        <button onclick="submitEmailAndRedeem()">Submit Email & Redeem</button>
     </div>
 
     <div id="thankYouMessage" style="display: none;">
@@ -23,6 +24,14 @@
     </div>
 
     <script>
+        function submitEmailAndRedeem() {
+            const userEmail = document.getElementById('emailInput').value;
+            localStorage.setItem('userEmail', userEmail);
+            localStorage.setItem('userPoints', 0); // Reset points to 0
+
+            redeem();
+        }
+
         // Retrieve user's email and points from localStorage
         const userEmail = localStorage.getItem('userEmail');
         let userPoints = localStorage.getItem('userPoints') || 0;
